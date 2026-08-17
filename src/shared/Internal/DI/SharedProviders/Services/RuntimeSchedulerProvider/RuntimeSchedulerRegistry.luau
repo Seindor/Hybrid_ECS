@@ -1,8 +1,8 @@
-local Container = require("@Shared/Modules/Libraries/DependencyInjection/Sevices/Container")
+local Container = require("@Shared/Core/DependencyInjection/Sevices/Container")
 
-local registry = require("@Shared/DI/Generated/SharedRegistry")
+local registry = require("@Shared/Internal/DI/Generated/SharedRegistry")
 
-local object = require("@Shared/Modules/Libraries/RuntimeScheduler/Services/RuntimeScheduler")
+local object = require("@Shared/Core/RuntimeScheduler/Services/RuntimeScheduler")
 
 local Registry = {}
 Registry.token = registry.Singletons.Services.RuntimeScheduler

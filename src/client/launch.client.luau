@@ -1,7 +1,8 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local bootstrapper = require("@Shared/Modules/Libraries/Bootstrapper/Serivces/BootstrapperService")
+local bootstrapper = require("@Shared/Core/Bootstrapper/Serivces/BootstrapperService")
 
 bootstrapper.Launch({
-	ReplicatedStorage.Modules,
-}, "Bootstrap")
+	ReplicatedStorage.Core,
+	script.Parent,
+}, "Bootstrap", "ClientBootstrap")

@@ -1,8 +1,8 @@
 --!strict
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Container = require("@SharedPackages/Core/DependencyInjection_Package/Sevices/Container")
-local RegisterDependencies = require("@SharedPackages/Core/DependencyInjection_Package/Sevices/RegisterDependencies")
+local Container = require("@Shared/Core/DependencyInjection/Sevices/Container")
+local RegisterDependencies = require("@Shared/Core/DependencyInjection/Sevices/RegisterDependencies")
 
 local CompositionRootShared = Container.new()
 
