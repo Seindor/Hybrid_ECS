@@ -1,0 +1,26 @@
+/*.rbxl
+/*.rbxlx
+
+/*.rbxlx.lock
+/*.rbxl.lock
+
+sourcemap.json
+
+/roblox.yml
+
+/*.pesde
+/*luau_packages
+/*lune_packages
+/pesde.lock
+/*roblox_packages
+/*roblox_server_packages
+/*out
+/.vscode
+/.qodo
+/temp
+/llminfo
+/outdated
+
+# Added by cargo
+
+/target

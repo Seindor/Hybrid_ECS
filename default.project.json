@@ -1,0 +1,35 @@
+{
+  "name": "Test",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "$ignoreUnknownInstances": true,
+      "$path": "src/shared",
+      "RbxPackages": {
+        "$className": "Folder",
+        "$ignoreUnknownInstances": true,
+        "$path": "roblox_packages"
+      }
+    },
+    "ServerScriptService": {
+      "$className": "ServerScriptService",
+      "$ignoreUnknownInstances": true,
+      "$path": "src/server",
+      "ServerRbxPackages": {
+        "$className": "Folder",
+        "$ignoreUnknownInstances": true,
+        "$path": "roblox_server_packages"
+      }
+    },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "$ignoreUnknownInstances": true,
+        "$path": "src/client"
+      },
+      "$ignoreUnknownInstances": true
+    }
+  }
+}

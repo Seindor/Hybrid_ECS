@@ -1,0 +1,50 @@
+{
+	"process": [
+        {
+            "rule": "inject_global_value",
+            "identifier": "__DEV__",
+            "env": "ROBLOX_DEV"
+        },
+		{
+			"rule": "convert_require",
+			"current": {
+				"name": "path",
+				"sources": {
+					"lune": "~/.lune/.typedefs/0.10.4/",
+					"Shared": "src/shared/",
+					"Server": "src/server/",
+					"Client": "src/client/",
+
+					"Info": "src/shared/Data/Info",
+					"Config": "src/shared/Data/Config",
+					"Interfaces": "src/shared/Data/Interfaces",
+					"Templates": "src/shared/Data/Templates",
+
+					"Assets": "src/shared/Assets",
+					"Utilities": "src/shared/Utilities",
+
+					"SharedPackages": "src/shared/Packages",
+					"ServerPackages": "src/server/Packages",
+					"ServerModules": "src/server/Modules",
+
+					"UIController": "src/shared/UIController",
+					"UIComponents": "src/shared/UIController/Components",
+
+					"RbxPackages": "roblox_packages",
+					"RbxServerPackages": "roblox_server_packages"
+  				}
+			},
+			"target": {
+				"name": "roblox",
+				"rojo_sourcemap": "sourcemap.json",
+				"indexing_style": "wait_for_child"
+			}
+		},
+		"compute_expression",
+		"remove_unused_if_branch",
+		"remove_unused_while",
+		"filter_after_early_return",
+		"remove_nil_declaration",
+		"remove_empty_do"
+	]
+}

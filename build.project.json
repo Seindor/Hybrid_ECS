@@ -1,0 +1,36 @@
+{
+  "name": "Test",
+  "globIgnorePaths": ["**/*.spec.luau", "**/*.data.luau"],
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "$ignoreUnknownInstances": true,
+      "$path": "out/shared",
+      "RbxPackages": {
+        "$className": "Folder",
+        "$ignoreUnknownInstances": true,
+        "$path": "roblox_packages"
+      }
+    },
+    "ServerScriptService": {
+      "$className": "ServerScriptService",
+      "$ignoreUnknownInstances": true,
+      "$path": "out/server",
+      "ServerRbxPackages": {
+        "$className": "Folder",
+        "$ignoreUnknownInstances": true,
+        "$path": "roblox_server_packages"
+      }
+    },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "$ignoreUnknownInstances": true,
+        "$path": "out/client"
+      },
+      "$ignoreUnknownInstances": true
+    }
+  }
+}

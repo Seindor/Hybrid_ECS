@@ -1,0 +1,43 @@
+name = "test/ecs"
+version = "0.1.0"
+description = "ecs test"
+license = "MIT"
+
+[target]
+environment = "roblox"
+
+[indices]
+default = "https://github.com/pesde-pkg/index"
+
+[wally_indices]
+default = "https://github.com/UpliftGames/wally-index"
+
+[scripts]
+roblox_sync_config_generator = ".pesde/scripts/roblox_sync_config_generator.luau"
+sourcemap_generator = ".pesde/scripts/sourcemap_generator.luau"
+generate_interfaces = ".scripts/lune/generate_interfaces.luau"
+generate_signals = ".scripts/lune/generate_signals.luau"
+
+[dev_dependencies]
+scripts = { name = "pesde/scripts_rojo", version = "^0.2.0", target = "lune" }
+rojo = { name = "pesde/rojo", version = "^7.7.0-rc.1", target = "lune" }
+
+[dependencies]
+signal = { wally = "sleitnick/signal", version = "^2.0.3" }
+immut = { wally = "solarhorizon/immut", version = "^0.4.4" }
+charm-sync = { wally = "littensy/charm-sync", version = "^0.4.0-rc.4" }
+charm = { wally = "littensy/charm", version = "^0.11.0-rc.2" }
+janitor = { wally = "howmanysmall/janitor", version = "^1.18.3" }
+promise = { wally = "howmanysmall/typed-promise", version = "^4.0.6" }
+greentea = { name = "corecii/greentea", version = "^0.4.11" }
+sift = { wally = "csqrl/sift", version = "^0.0.11" }
+fusion = { wally = "elttob/fusion", version = "^0.3.0" }
+topbarplus = { wally = "1foreverhd/topbarplus", version = "^3.4.0" }
+typeforge = { wally = "cameronpcampbell/typeforge", version = "^3.0.3" }
+conch = { name = "alicesaidhi/conch", version = "^0.4.0-rc.6" }
+documentservice = { wally = "anthony0br/documentservice", version = "^1.2.2" } 
+jecs = { wally = "ukendio/jecs", version = "^0.11.0" }
+
+[engines]
+pesde = "^0.7.0"
+lune = "^0.10.2"
