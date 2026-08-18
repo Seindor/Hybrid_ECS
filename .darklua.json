@@ -15,20 +15,18 @@
 					"Server": "src/server/",
 					"Client": "src/client/",
 
-					"Info": "src/shared/Data/Info",
-					"Config": "src/shared/Data/Config",
-					"Interfaces": "src/shared/Data/Interfaces",
-					"Templates": "src/shared/Data/Templates",
+					"SharedCore": "src/shared/Core",
+					"SharedGameplay": "src/shared/Gameplay",
+					"SharedInternal": "src/shared/Internal",
+					"SharedContent": "src/shared/Content",
 
-					"Assets": "src/shared/Assets",
-					"Utilities": "src/shared/Utilities",
+					"ServerCore": "src/server/Core",
+					"ServerGameplay": "src/server/Gameplay",
+					"ServerInternal": "src/server/Internal",
 
-					"SharedPackages": "src/shared/Packages",
-					"ServerPackages": "src/server/Packages",
-					"ServerModules": "src/server/Modules",
-
-					"UIController": "src/shared/UIController",
-					"UIComponents": "src/shared/UIController/Components",
+					"ClientCore": "src/server/Core",
+					"ClientGameplay": "src/server/Gameplay",
+					"ClientInternal": "src/server/Internal",
 
 					"RbxPackages": "roblox_packages",
 					"RbxServerPackages": "roblox_server_packages"
