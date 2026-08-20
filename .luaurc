@@ -15,9 +15,9 @@
     "ServerGameplay": "src/server/Gameplay",
     "ServerInternal": "src/server/Internal",
 
-    "ClientCore": "src/server/Core",
-    "ClientGameplay": "src/server/Gameplay",
-    "ClientInternal": "src/server/Internal",
+    "ClientCore": "src/client/Core",
+    "ClientGameplay": "src/client/Gameplay",
+    "ClientInternal": "src/client/Internal",
 
     "RbxPackages": "roblox_packages",
     "RbxServerPackages": "roblox_server_packages"

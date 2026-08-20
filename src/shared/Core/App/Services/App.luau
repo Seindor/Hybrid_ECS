@@ -33,7 +33,7 @@ local function recalculateUpdateOrder(app: IApp)
 
 	local temp: { { { (dt: number?) -> () } } } = {}
 
-	for _, system in pairs(app.Systems) do
+	for _, system in ipairs(app.Systems) do
 		local group = temp[system.group] or {}
 		temp[system.group] = group
 
@@ -43,8 +43,8 @@ local function recalculateUpdateOrder(app: IApp)
 		table.insert(priority, system.system)
 	end
 
-	for _, group in ipairs(temp) do
-		for _, priorityGroup in ipairs(group) do
+	for _, group in pairs(temp) do
+		for _, priorityGroup in pairs(group) do
 			table.insert(app.UpdateOrder, priorityGroup)
 		end
 	end
@@ -69,6 +69,14 @@ function constructor.new()
 	self.UpdateOrder = {}
 
 	return self :: IApp
+end
+
+function service.RegisterBootFiles(self: IApp, container: Instance)
+	for _, module in pairs(container:GetDescendants()) do
+		if not module:IsA("ModuleScript") then continue end
+		if module.Name ~= "boot" then continue end
+		(require)(module)(self)
+	end
 end
 
 function service.RegisterResource<T>(self: IApp, token: { Resource: T }, resource: T)

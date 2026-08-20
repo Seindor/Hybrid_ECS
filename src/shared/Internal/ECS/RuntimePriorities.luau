@@ -17,4 +17,6 @@ local Data = {
 	},
 }
 
+-- ^ simplify priorities
+
 return Data

@@ -20,7 +20,7 @@ generate_signals = ".scripts/lune/generate_signals.luau"
 
 [dev_dependencies]
 scripts = { name = "pesde/scripts_rojo", version = "^0.2.0", target = "lune" }
-rojo = { name = "pesde/rojo", version = "^7.7.0-rc.1", target = "lune" }
+rojo = { name = "pesde/rojo", version = "7.7.0", target = "lune" }
 
 [dependencies]
 signal = { wally = "sleitnick/signal", version = "^2.0.3" }
@@ -37,6 +37,10 @@ typeforge = { wally = "cameronpcampbell/typeforge", version = "^3.0.3" }
 conch = { name = "alicesaidhi/conch", version = "^0.4.0-rc.6" }
 documentservice = { wally = "anthony0br/documentservice", version = "^1.2.2" } 
 jecs = { wally = "ukendio/jecs", version = "^0.11.0" }
+replecs = { wally = "pepeeltoro41/replecs", version = "^0.3.1" }
+
+[overrides]
+"replecs>jecs" = "jecs"
 
 [engines]
 pesde = "^0.7.0"
