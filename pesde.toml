@@ -21,6 +21,7 @@ generate_signals = ".scripts/lune/generate_signals.luau"
 [dev_dependencies]
 scripts = { name = "pesde/scripts_rojo", version = "^0.2.0", target = "lune" }
 rojo = { name = "pesde/rojo", version = "7.7.0", target = "lune" }
+blink = { name = "1axen/blink", version = "0.18.8", target = "lune" }
 
 [dependencies]
 signal = { wally = "sleitnick/signal", version = "^2.0.3" }

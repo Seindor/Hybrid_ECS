@@ -1,0 +1,23 @@
+option ClientOutput = "../client/Internal/Signals.luau"
+option ServerOutput = "../server/Internal/Signals.luau"
+
+event RequestDataReplication {
+    from: Client,
+    type: Reliable,
+    call: SingleSync,
+    data: unknown
+}
+
+event ReplicateGamestate {
+    from: Server,
+    type: Reliable,
+    call: SingleSync,
+    data: (buffer, unknown)
+}
+
+event ReplicateGamestateChanges {
+    from: Server,
+    type: Reliable,
+    call: SingleSync,
+    data: (buffer, unknown)
+}
