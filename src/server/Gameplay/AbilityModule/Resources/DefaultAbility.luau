@@ -1,0 +1,3 @@
+local ability = {}
+
+return ability

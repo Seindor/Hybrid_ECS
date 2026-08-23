@@ -12,13 +12,13 @@ type IService<T> = typeof(service) & {
 
 export type Export = IService<any>
 
-function constructor.new<T>(databaseAdapter: Types.IDatabaseAdapter<T>, storeAdapter: Types.IStoreAdapter<T>)
+function constructor.new(databaseAdapter: Types.IDatabaseAdapter<any>, storeAdapter: Types.IStoreAdapter<any>)
 	local self = setmetatable({}, service)
 
 	self.DatabaseAdapter = databaseAdapter
 	self.StoreAdapter = storeAdapter
 
-	return self :: IService<T>
+	return self :: IService<any>
 end
 
 function service.Save<T>(self: IService<T>, id: string, data: T)
@@ -45,4 +45,4 @@ function service.Get<T>(self: IService<T>, id: string)
 	return self.StoreAdapter:GetFromStore(id)
 end
 
-return service
+return constructor

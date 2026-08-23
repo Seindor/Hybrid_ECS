@@ -15,7 +15,7 @@ function constructor.new<T>(store: Types.IStore<T>)
 
 	self.Store = store
 
-	return self
+	return self :: IAdapter<T>
 end
 
 function adapter.SaveToStore<T>(self: IAdapter<T>, id: string, data: T)
@@ -45,4 +45,4 @@ function adapter.RemoveFromStore<T>(self: IAdapter<T>, id: string)
 	self.Store.Set(newStore)
 end
 
-return adapter
+return constructor

@@ -1,4 +1,4 @@
 local replecs = require("@RbxPackages/replecs")
-local World: any = require("../ECS/WorldPoint")
+local WorldPoint = require("../ECS/WorldPoint")
 
-return replecs.create(World)
+return replecs.create(WorldPoint)

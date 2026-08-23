@@ -1,3 +1,0 @@
-local operations = {}
-
-return operations

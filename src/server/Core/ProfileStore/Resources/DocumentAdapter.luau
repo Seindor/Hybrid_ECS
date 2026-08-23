@@ -11,7 +11,7 @@ function constructor.new<T>(store: documentservice.DocumentStore<T>)
 
 	self.Store = store
 
-	return self
+	return self :: IAdapter<T>
 end
 
 type IAdapter<T> = Types.IDatabaseAdapter<T> & { Store: documentservice.DocumentStore<T> }
@@ -60,4 +60,4 @@ function adapter.Get<T>(self: IAdapter<T>, id: string): T?
 	return nil
 end
 
-return adapter
+return constructor
