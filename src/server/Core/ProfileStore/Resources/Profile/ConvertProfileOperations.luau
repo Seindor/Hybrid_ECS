@@ -1,7 +1,7 @@
 local jecs = require("@RbxPackages/jecs")
 local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
 local Components = require("@SharedInternal/Replication/Components")
-local Profile = require("../Data/Profile")
+local Profile = require("./Profile")
 
 local operations = {}
 
