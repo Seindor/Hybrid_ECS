@@ -17,6 +17,8 @@ local transitions = {
 	[phases.Interrupted] = phases.Recharging,
 }
 
+export type Phases = string --keyof<typeof(phases)>
+
 return {
 	Phases = phases,
 	Transitions = transitions,

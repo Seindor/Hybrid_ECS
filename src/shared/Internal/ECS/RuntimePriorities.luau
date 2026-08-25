@@ -1,20 +1,10 @@
 local Data = {
-	Groups = {
-		Physic = 1,
-		Combat = 2,
-	},
-
-	Priorities = {
-		Physic = {
-			Position = 1,
-			Velocity = 2,
-		},
-
-		Combat = {
-			PassivesApply = 1,
-			Damage = 2,
-		},
-	},
+	PreRequest = 2000,
+	Request = 1950,
+	PostRequest = 1900,
+	PreEvent = 1850,
+	Event = 1800,
+	PostEvent = 1750,
 }
 
 -- ^ simplify priorities

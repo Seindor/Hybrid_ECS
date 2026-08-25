@@ -2,5 +2,6 @@ local jecs = require("@RbxPackages/jecs")
 local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
 
 return {
-	ProfileConversion = WorldPoint:component() :: jecs.Component<{ id: string, player: Player }>,
+	Request = WorldPoint:component() :: jecs.Component<>,
+	Event = WorldPoint:component() :: jecs.Component<>,
 }

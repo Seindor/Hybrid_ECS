@@ -1,3 +1,0 @@
-local ability = {}
-
-return ability

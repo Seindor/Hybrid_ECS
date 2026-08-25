@@ -31,29 +31,23 @@ end
 local function recalculateUpdateOrder(app: IApp)
 	table.clear(app.UpdateOrder)
 
-	local temp: { { { (dt: number?) -> () } } } = {}
+	local temp: { { (dt: number?) -> () } } = {}
 
 	for _, system in ipairs(app.Systems) do
-		local group = temp[system.group] or {}
-		temp[system.group] = group
-
-		local priority = group[system.priority] or {}
-		group[system.priority] = priority
+		local priority = temp[system.priority] or {}
+		temp[system.priority] = priority
 
 		table.insert(priority, system.system)
 	end
 
-	for _, group in pairs(temp) do
-		for _, priorityGroup in pairs(group) do
-			table.insert(app.UpdateOrder, priorityGroup)
-		end
+	for _, priorityGroup in pairs(temp) do
+		table.insert(app.UpdateOrder, priorityGroup)
 	end
 end
 
 export type IApp = typeof(service) & {
 	Systems: {
 		{
-			group: number,
 			priority: number,
 			system: (dt: number?) -> (),
 		}
@@ -84,9 +78,8 @@ function service.RegisterResource<T>(self: IApp, token: { Resource: T }, resourc
 	return self
 end
 
-function service.RegisterSystem(self: IApp, system: (dt: number?) -> (), groupPriority: number, systemPriority: number)
+function service.RegisterSystem(self: IApp, system: (dt: number?) -> (), systemPriority: number)
 	table.insert(self.Systems, {
-		group = groupPriority,
 		priority = systemPriority,
 		system = system,
 	})
