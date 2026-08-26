@@ -1,19 +1,20 @@
 local jecs = require("@RbxPackages/jecs")
 local ValidatorEnums = require("../Data/ValidatorEnums")
-local Abilities = require("../Resources/Abilities")
 local Components = require("../Data/Components")
 local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
+local AbilitiesRegistry = require("../Resources/AbilitiesRegistry")
 
 local operations = {}
 
-function operations.ValidateAbility(entity: jecs.Entity, validator: ValidatorEnums.Enums)
-	local abilityName = WorldPoint:get(entity, Components.AbilityName)
+function operations.ValidateAbility(entity: jecs.Entity, validator: ValidatorEnums.Enums): boolean?
+	local abilityInfo = WorldPoint:get(entity, Components.AbilityInfo)
+	if not abilityInfo then return false end
 
-	local selectedAbility = Abilities[abilityName or "Default"]
-	if not selectedAbility then return end
+	local selectedAbility = AbilitiesRegistry[abilityInfo.Name]
+	if not selectedAbility then return false end
 
-	local selectedValidator = selectedAbility[validator]
-	if not selectedValidator then return end
+	local selectedValidator = selectedAbility.Validators[validator]
+	if not selectedValidator then selectedValidator = AbilitiesRegistry["Default"].Validators[validator] end
 
 	return selectedValidator(entity)
 end

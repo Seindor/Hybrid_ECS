@@ -1,7 +1,11 @@
 local validators: { [string]: (...any) -> () } = {}
 
-function validators.CheckCD() end
+function validators.CheckCD()
+	return true
+end
 
-function validators.CheckIsActive() end
+function validators.CheckIsActive()
+	return true
+end
 
 return validators

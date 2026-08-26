@@ -5,8 +5,7 @@ local Data = {
 	PreEvent = 1850,
 	Event = 1800,
 	PostEvent = 1750,
+	Cleanup = 1000,
 }
-
--- ^ simplify priorities
 
 return Data

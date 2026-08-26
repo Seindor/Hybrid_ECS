@@ -1,5 +1,5 @@
 local jecs = require("@RbxPackages/jecs")
-local Profile = require("@ServerInternal/Dependencies/Datastores/Profile").Resource
+local Profile = require("@ServerInternal/Dependencies/Datastores/Profile")
 local ConvertProfileOperations = require("../Resources/Profile/ConvertProfileOperations")
 local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
 local Components = require("../Data/Components")
@@ -8,7 +8,7 @@ local API = {}
 
 function API.LoadPlayer(player: Player, entity: jecs.Entity)
 	local id = tostring(player.UserId)
-	local data = Profile:Load(id)
+	local data = Profile.Resource:Load(id)
 
 	if not data then
 		player:Kick("Failed to load data!")
@@ -22,13 +22,13 @@ end
 function API.UnloadPlayer(player: Player, entity: jecs.Entity)
 	local id = tostring(player.UserId)
 	API.SavePlayer(player, entity)
-	Profile:Unload(id)
+	Profile.Resource:Unload(id)
 end
 
 function API.SavePlayer(player: Player, entity: jecs.Entity)
 	local id = tostring(player.UserId)
 	local data = ConvertProfileOperations.ConvertToStore(entity)
-	Profile:Save(id, data)
+	Profile.Resource:Save(id, data)
 end
 
 return API

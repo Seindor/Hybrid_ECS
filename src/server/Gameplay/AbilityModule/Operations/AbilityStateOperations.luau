@@ -1,9 +1,9 @@
 local jecs = require("@RbxPackages/jecs")
+local StateMachine = require("@SharedGameplay/AbilityModule/Data/AbilityStateMachine")
 local Components = require("../Data/Components")
 local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
 local ValidatorEnums = require("../Data/ValidatorEnums")
 local AbilityFSM = require("../Resources/AbilityFSM")
-local StateMachine = require("../Data/StateMachine")
 local AbilityValidationOperations = require("./AbilityValidationOperations")
 
 local operations = {}
@@ -22,6 +22,7 @@ local function stratThread(entity: jecs.Entity, phase: StateMachine.Phases)
 	clearThreads(entity)
 
 	_internal.janitor:Add(task.spawn(function()
+		WorldPoint:set(entity, Components.Shared.State, phase)
 		AbilityFSM[phase](entity)
 	end))
 end

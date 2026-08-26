@@ -3,19 +3,22 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local jecs = require("@RbxPackages/jecs")
 local replecs = require("@RbxPackages/replecs")
-local Replication = require("@ServerCore/Replication/Operations/Replication")
+
 local AppService = require("@SharedCore/App/Services/App")
 local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
 
 local App = AppService.new()
 
-Replication.SetupReplication()
-Replication.SetupComponentsReplication(ReplicatedStorage.Internal, "components")
-
 App:RegisterBootFiles(script.Parent :: Instance)
 
 App:Init()
 
+local Replication = require("@ServerCore/Replication/Operations/Replication")
+
+Replication.SetupReplication()
+Replication.SetupComponentsReplication(ReplicatedStorage.Gameplay, "components")
+
+local AbilityAPI = require("./Gameplay/AbilityModule/APIs/AbilityAPI")
 local ProfileStoreAPI = require("./Core/ProfileStore/APIs/ProfileStoreAPI")
 
 local playerStore = {}
@@ -25,10 +28,33 @@ Players.PlayerAdded:Connect(function(player)
 	local entity = WorldPoint:entity()
 	playerStore[player] = entity
 	WorldPoint:set(entity, playerComponent, player)
+
 	WorldPoint:set(entity, replecs.networked, {
 		[player] = true,
 	})
+
 	ProfileStoreAPI.LoadPlayer(player, entity)
+
+	AbilityAPI._setupContainer(entity)
+
+	task.delay(2, function()
+		AbilityAPI.CreateAbility({
+			owner = entity,
+			abilityName = "Test",
+		})
+
+		task.wait(1)
+
+		AbilityAPI.ReplicateAbility(entity, "Test", { [player] = true })
+		-- ^ make sure that replication will be triggered after ability creation system is done with the ability
+		-- basically change order by 1 frame
+
+		task.wait(1)
+		AbilityAPI.StartAbility(entity, "Test")
+
+		task.wait(2)
+		AbilityAPI.InterruptAbility(entity, "Test")
+	end)
 end)
 
 Players.PlayerRemoving:Connect(function(player)

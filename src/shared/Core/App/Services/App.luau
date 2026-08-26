@@ -14,9 +14,14 @@ local function executeSystemGroup(systems: { (dt: number?) -> () }, dt: number)
 end
 
 local function scheduleSystems(app: IApp)
-	RunService:UnbindFromRenderStep("Systems")
+	local completed = true
+	local dt = 1 / 60
+	--add unbind later
 
-	RunService:BindToRenderStep("Systems", 100, function(dt)
+	RunService:BindToSimulation(function()
+		if not completed then return end
+		completed = false
+
 		for _, priorityGroup in pairs(app.UpdateOrder) do
 			promise
 				.try(executeSystemGroup, priorityGroup, dt)
@@ -25,23 +30,38 @@ local function scheduleSystems(app: IApp)
 				end)
 				:await()
 		end
-	end)
+
+		completed = true
+	end, Enum.StepFrequency.Hz60, 200)
 end
+
+type tempValue = { priority: number, systems: { (dt: number?) -> () } }
 
 local function recalculateUpdateOrder(app: IApp)
 	table.clear(app.UpdateOrder)
 
-	local temp: { { (dt: number?) -> () } } = {}
+	local temp: { tempValue } = {}
 
 	for _, system in ipairs(app.Systems) do
-		local priority = temp[system.priority] or {}
-		temp[system.priority] = priority
+		local group = temp[system.priority]
 
-		table.insert(priority, system.system)
+		if not group then
+			temp[system.priority] = {
+				priority = system.priority,
+				systems = {},
+			}
+			group = temp[system.priority]
+		end
+
+		table.insert(group.systems, system.system)
 	end
 
+	table.sort(temp, function(a0: tempValue, a1: tempValue)
+		return a0.priority > a1.priority
+	end)
+
 	for _, priorityGroup in pairs(temp) do
-		table.insert(app.UpdateOrder, priorityGroup)
+		table.insert(app.UpdateOrder, priorityGroup.systems)
 	end
 end
 

@@ -6,7 +6,10 @@ local Replicator = require("@SharedInternal/Replication/Replicator").server
 
 local operations = {}
 
-local function setupComponent(component: jecs.Id)
+local function setupComponent(name: string, component: jecs.Id)
+	WorldPoint:add(component, replecs.shared)
+	WorldPoint:set(component, jecs.Name, name)
+
 	WorldPoint:added(component, function(entity)
 		WorldPoint:add(entity, jecs.pair(replecs.reliable :: jecs.Id, component))
 	end)
@@ -18,6 +21,8 @@ local function startReplication()
 			Signals.ReplicateGamestateChanges.Fire(player, buf, variants)
 		end
 	end
+
+	-- ^ should be a system instead (look into profile store)
 end
 
 function operations.SetupComponentsReplication(instance: Instance, fileName: string)
@@ -26,8 +31,8 @@ function operations.SetupComponentsReplication(instance: Instance, fileName: str
 		if module.Name:lower() ~= fileName:lower() then continue end
 		local loaded = (require)(module) :: { [string]: jecs.Id }
 
-		for _, component in pairs(loaded) do
-			setupComponent(component)
+		for name, component in pairs(loaded) do
+			setupComponent(name, component)
 		end
 	end
 end

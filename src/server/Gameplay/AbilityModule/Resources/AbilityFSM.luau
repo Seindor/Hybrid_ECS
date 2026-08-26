@@ -1,43 +1,43 @@
 local jecs = require("@RbxPackages/jecs")
-local Abilities = require("./Abilities")
+local StateMachine = require("@SharedGameplay/AbilityModule/Data/AbilityStateMachine")
 local Components = require("../Data/Components")
-local StateMachine = require("@ServerGameplay/AbilityModule/Data/StateMachine")
 local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
+local AbilitiesRegistry = require("./AbilitiesRegistry")
 
 local operations = {}
 
-local function canChangeToNextPhase(
-	entity: jecs.Entity,
-	currentPhase: StateMachine.Phases,
-	predictedPhase: StateMachine.Phases
-): boolean
-	return currentPhase ~= predictedPhase
+local function canChangeToNextPhase(currentPhase: StateMachine.Phases, predictedPhase: StateMachine.Phases): boolean
+	return currentPhase == predictedPhase
 end
 
 local function executePhaseBehavior(entity: jecs.Entity)
-	local currentPhase = WorldPoint:get(entity, Components.State)
+	local currentPhase = WorldPoint:get(entity, Components.Shared.State)
 	if not currentPhase then return end
 
-	local abilityName = WorldPoint:get(entity, Components.AbilityName)
+	local abilityInfo = WorldPoint:get(entity, Components.AbilityInfo)
+	if not abilityInfo then return end
 
-	local selectedAbility = Abilities[abilityName or "Default"]
+	local selectedAbility = AbilitiesRegistry[abilityInfo.Name]
 	if not selectedAbility then return end
 
-	local selectedPhaseBehavior = selectedAbility[currentPhase]
+	local selectedPhaseBehavior = selectedAbility.Phases[currentPhase]
 	if not selectedPhaseBehavior then return end
 
 	selectedPhaseBehavior(entity)
 end
 
 local function changeToNextPhase(entity: jecs.Entity, predictedPhase: StateMachine.Phases)
-	local currentPhase = WorldPoint:get(entity, Components.State)
+	local currentPhase = WorldPoint:get(entity, Components.Shared.State)
 	if not currentPhase then return end
-	if not canChangeToNextPhase(entity, currentPhase, predictedPhase) then return end
+
+	if not canChangeToNextPhase(currentPhase, predictedPhase) then return end
 
 	local nextPhase = StateMachine.Transitions[predictedPhase]
 	local selectedOperation = operations[nextPhase]
 
-	if not selectedOperation then return end
+	if not nextPhase or not selectedOperation then return end
+
+	WorldPoint:set(entity, Components.Shared.State, nextPhase)
 	selectedOperation(entity)
 end
 

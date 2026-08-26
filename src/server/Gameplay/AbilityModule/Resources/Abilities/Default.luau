@@ -1,6 +1,6 @@
 local jecs = require("@RbxPackages/jecs")
+local StateMachine = require("@SharedGameplay/AbilityModule/Data/AbilityStateMachine")
 local DefaultStartValidators = require("../DefaultStartValidators")
-local StateMachine = require("../../Data/StateMachine")
 local Types = require("../../Data/Types")
 local ValidatorEnums = require("../../Data/ValidatorEnums")
 
