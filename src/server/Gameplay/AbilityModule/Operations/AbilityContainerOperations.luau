@@ -1,4 +1,3 @@
-local immut = require("@RbxPackages/immut")
 local jecs = require("@RbxPackages/jecs")
 local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
 local Components = require("../Data/Components")
@@ -16,11 +15,10 @@ function operations.AddAbilityToContainer(owner: jecs.Entity, ability: jecs.Enti
 
 	if not canAddAbility() then return end
 
-	local abilityInfo = WorldPoint:get(ability, Components.AbilityInfo)
+	local abilityInfo = WorldPoint:get(ability, Components.Shared.AbilityInfo)
 	if not abilityInfo then return end
 
 	container[abilityInfo.Name] = ability
-	print("tag1", container)
 	WorldPoint:set(owner, Components.Shared.AbilityContainer, container)
 end
 

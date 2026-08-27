@@ -14,7 +14,7 @@ App:Init()
 
 task.spawn(function()
 	print("setup")
-	while task.wait(1 / 5) do
+	while task.wait(1 / 10) do
 		for entity, data in WorldPoint:query(Components.State) do
 			print(`Current server ability state: {data}`)
 		end

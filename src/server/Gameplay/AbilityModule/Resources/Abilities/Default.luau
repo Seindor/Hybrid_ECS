@@ -5,6 +5,7 @@ local Types = require("../../Data/Types")
 local ValidatorEnums = require("../../Data/ValidatorEnums")
 
 local ability: Types.IAbility = {
+	Name = "Default",
 	Phases = {},
 	Validators = {},
 }

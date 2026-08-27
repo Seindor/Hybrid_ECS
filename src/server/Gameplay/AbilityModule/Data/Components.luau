@@ -1,6 +1,5 @@
 local janitor = require("@RbxPackages/janitor")
 local jecs = require("@RbxPackages/jecs")
-local AbilityType = require("@SharedContent/Types/AbilityType")
 local Components = require("@SharedGameplay/AbilityModule/Data/Components")
 local Types = require("./Types")
 local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
@@ -15,10 +14,7 @@ return {
 		janitor: janitor.Janitor,
 	}>,
 
-	AbilityInfo = WorldPoint:component() :: jecs.Component<AbilityType.Ability>,
-	Active = WorldPoint:component() :: jecs.Component<>,
-	OnCD = WorldPoint:component() :: jecs.Component<>,
-	Cooldown = WorldPoint:component() :: jecs.Component<{ passed: number }>, -- move into another time related module
+	AbilityOwner = WorldPoint:component() :: jecs.Component<jecs.Entity>,
 
 	ReplicateAbilityRequestData = WorldPoint:component() :: jecs.Component<Types.ReplicateAbilityRequestData>,
 	CreateAbilityRequestData = WorldPoint:component() :: jecs.Component<Types.CreateAbilityRequestData>,

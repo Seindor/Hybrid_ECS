@@ -10,6 +10,7 @@ local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
 local App = AppService.new()
 
 App:RegisterBootFiles(script.Parent :: Instance)
+App:RegisterBootFiles(ReplicatedStorage)
 
 App:Init()
 
@@ -43,12 +44,16 @@ Players.PlayerAdded:Connect(function(player)
 			abilityName = "Test",
 		})
 
+		AbilityAPI.ReplicateAbility({
+			owner = entity,
+			abilityName = "Test",
+			players = {
+				[player] = true,
+			},
+		})
+
 		task.wait(1)
-
-		AbilityAPI.ReplicateAbility(entity, "Test", { [player] = true })
-		-- ^ make sure that replication will be triggered after ability creation system is done with the ability
-		-- basically change order by 1 frame
-
+		AbilityAPI.StartAbility(entity, "Test")
 		task.wait(1)
 		AbilityAPI.StartAbility(entity, "Test")
 

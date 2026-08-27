@@ -13,8 +13,8 @@ function API.CreateAbility(data: Types.CreateAbilityRequestData)
 	AbilityRequestOperations.RequestAbilityCreation(data)
 end
 
-function API.ReplicateAbility(owner: jecs.Entity, abilityName: string, players: { [Player]: boolean })
-	AbilityReplicationOperations.AddAbilityReplication({ owner = owner, abilityName = abilityName, players = players })
+function API.ReplicateAbility(data: Types.ReplicateAbilityRequestData)
+	AbilityRequestOperations.RequestAbilityReplication(data)
 end
 
 function API.StartAbility(owner: jecs.Entity, abilityName: string)

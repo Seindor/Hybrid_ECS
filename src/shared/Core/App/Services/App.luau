@@ -1,6 +1,7 @@
 local RunService = game:GetService("RunService")
 
 local promise = require("@RbxPackages/promise")
+local sift = require("@RbxPackages/sift")
 
 local constructor = {}
 
@@ -40,17 +41,20 @@ type tempValue = { priority: number, systems: { (dt: number?) -> () } }
 local function recalculateUpdateOrder(app: IApp)
 	table.clear(app.UpdateOrder)
 
+	local createdGroups: { [string]: tempValue } = {}
 	local temp: { tempValue } = {}
 
 	for _, system in ipairs(app.Systems) do
-		local group = temp[system.priority]
+		local id = tostring(system.priority)
+		local group = createdGroups[id]
 
 		if not group then
-			temp[system.priority] = {
+			createdGroups[id] = {
 				priority = system.priority,
 				systems = {},
 			}
-			group = temp[system.priority]
+			group = createdGroups[id]
+			table.insert(temp, group)
 		end
 
 		table.insert(group.systems, system.system)
@@ -60,7 +64,7 @@ local function recalculateUpdateOrder(app: IApp)
 		return a0.priority > a1.priority
 	end)
 
-	for _, priorityGroup in pairs(temp) do
+	for a0, priorityGroup in temp do
 		table.insert(app.UpdateOrder, priorityGroup.systems)
 	end
 end

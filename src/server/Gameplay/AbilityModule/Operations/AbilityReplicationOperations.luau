@@ -10,7 +10,6 @@ function operations.AddAbilityReplication(data: Types.ReplicateAbilityRequestDat
 	if not container then return end
 
 	local ability = container[data.abilityName]
-	print(ability, container)
 	if not ability then return end
 
 	WorldPoint:set(ability, replecs.networked, data.players)

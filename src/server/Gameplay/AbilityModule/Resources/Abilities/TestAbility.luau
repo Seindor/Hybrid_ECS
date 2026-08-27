@@ -6,21 +6,22 @@ local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
 local Types = require("../../Data/Types")
 
 local ability: Types.IAbility = {
+	Name = "Test",
 	Phases = {},
 	Validators = {},
 }
 
 ability.Phases[StateMachine.Phases.Charging] = function(entity: jecs.Entity)
-	local info = WorldPoint:get(entity, Components.AbilityInfo)
+	local info = WorldPoint:get(entity, Components.Shared.AbilityInfo)
 	assert(info)
 
-	info.CD = 10
+	info.CD = 1
 
 	print("Charging")
 	task.wait(1)
 end
 ability.Phases[StateMachine.Phases.Starting] = function(entity)
-	local info = WorldPoint:get(entity, Components.AbilityInfo)
+	local info = WorldPoint:get(entity, Components.Shared.AbilityInfo)
 	assert(info)
 
 	print("Starting")
@@ -37,7 +38,6 @@ ability.Phases[StateMachine.Phases.Stoping] = function()
 end
 ability.Phases[StateMachine.Phases.Recharging] = function()
 	print("Recharging")
-	task.wait(1)
 end
 ability.Phases[StateMachine.Phases.Idle] = function()
 	print("Idle")

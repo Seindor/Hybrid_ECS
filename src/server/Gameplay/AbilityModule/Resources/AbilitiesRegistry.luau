@@ -1,10 +1,11 @@
 local Types = require("../Data/Types")
-local Default = require("./Abilities/Default")
-local TestAbility = require("./Abilities/TestAbility")
+
 local abilities: { [string]: Types.IAbility } = {}
 
-abilities["Default"] = Default
-abilities["Test"] = TestAbility
--- ^ make automatic loader later
+for _, module in pairs(script.Parent.Abilities:GetChildren()) do
+	if not module:IsA("ModuleScript") then continue end
+	local data = (require)(module)
+	abilities[data.Name] = data
+end
 
 return abilities

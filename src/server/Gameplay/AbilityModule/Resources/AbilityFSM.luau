@@ -1,8 +1,9 @@
 local jecs = require("@RbxPackages/jecs")
 local StateMachine = require("@SharedGameplay/AbilityModule/Data/AbilityStateMachine")
+local TimerAPI = require("@SharedGameplay/TimerModule/APIs/TimerAPI")
 local Components = require("../Data/Components")
 local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
-local AbilitiesRegistry = require("./AbilitiesRegistry")
+local Abilities = require("@ServerInternal/Dependencies/Registries/Abilities")
 
 local operations = {}
 
@@ -14,10 +15,10 @@ local function executePhaseBehavior(entity: jecs.Entity)
 	local currentPhase = WorldPoint:get(entity, Components.Shared.State)
 	if not currentPhase then return end
 
-	local abilityInfo = WorldPoint:get(entity, Components.AbilityInfo)
+	local abilityInfo = WorldPoint:get(entity, Components.Shared.AbilityInfo)
 	if not abilityInfo then return end
 
-	local selectedAbility = AbilitiesRegistry[abilityInfo.Name]
+	local selectedAbility = Abilities.Resource[abilityInfo.Name]
 	if not selectedAbility then return end
 
 	local selectedPhaseBehavior = selectedAbility.Phases[currentPhase]
@@ -42,7 +43,10 @@ local function changeToNextPhase(entity: jecs.Entity, predictedPhase: StateMachi
 end
 
 operations[StateMachine.Phases.Charging] = function(entity: jecs.Entity)
-	WorldPoint:add(entity, Components.Active)
+	WorldPoint:add(entity, Components.Shared.Active)
+
+	local owner = WorldPoint:get(entity, Components.AbilityOwner)
+	if owner then WorldPoint:add(owner, Components.Shared.UsingAbility) end
 
 	executePhaseBehavior(entity)
 	changeToNextPhase(entity, StateMachine.Phases.Charging)
@@ -64,16 +68,29 @@ operations[StateMachine.Phases.Stoping] = function(entity: jecs.Entity)
 end
 
 operations[StateMachine.Phases.Idle] = function(entity: jecs.Entity)
-	WorldPoint:remove(entity, Components.OnCD)
+	WorldPoint:remove(entity, Components.Shared.OnCD)
 
 	executePhaseBehavior(entity)
 	changeToNextPhase(entity, StateMachine.Phases.Idle)
 end
 
 operations[StateMachine.Phases.Recharging] = function(entity: jecs.Entity)
-	WorldPoint:remove(entity, Components.Active)
-	WorldPoint:add(entity, Components.OnCD)
-	WorldPoint:set(entity, Components.Cooldown, { passed = 0 })
+	local owner = WorldPoint:get(entity, Components.AbilityOwner)
+	if owner then WorldPoint:remove(owner, Components.Shared.UsingAbility) end
+
+	WorldPoint:remove(entity, Components.Shared.Active)
+	WorldPoint:add(entity, Components.Shared.OnCD)
+
+	-- maybe change it later?
+	local abilityInfo = WorldPoint:get(entity, Components.Shared.AbilityInfo)
+	if not abilityInfo then return end
+
+	local timers = WorldPoint:get(entity, Components.Shared.Timers)
+	if not timers then return end
+
+	TimerAPI.StartTimer(timers.CD, abilityInfo.CD)
+	TimerAPI.WaitForTimer(timers.CD)
+	-- ^ should this logic be in FSM or in a separate phase behavior?
 
 	executePhaseBehavior(entity)
 	changeToNextPhase(entity, StateMachine.Phases.Recharging)

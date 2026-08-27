@@ -15,12 +15,19 @@ function operations.CreateAbility(data: Types.CreateAbilityRequestData): jecs.En
 
 	local entity = WorldPoint:entity()
 
-	WorldPoint:set(entity, Components.AbilityInfo, sift.Dictionary.copyDeep(abilityInfo))
+	WorldPoint:set(entity, Components.Shared.AbilityInfo, sift.Dictionary.copyDeep(abilityInfo))
 	WorldPoint:set(entity, Components._abilityInternal, {
 		janitor = janitor.new(),
 	})
 	WorldPoint:set(entity, Components.Shared.State, AbilityStateMachine.Phases.Idle)
-	WorldPoint:set(entity, Components.Cooldown, { passed = 0 })
+	WorldPoint:set(entity, Components.Shared.Timers, {
+		CD = {
+			done = false,
+			duration = 10,
+			timeLeft = 10,
+		},
+	})
+	WorldPoint:set(entity, Components.AbilityOwner, data.owner)
 
 	return entity
 end

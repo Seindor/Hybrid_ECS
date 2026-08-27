@@ -3,6 +3,7 @@ local AbilityStateMachine = require("@SharedGameplay/AbilityModule/Data/AbilityS
 local ValidatorEnums = require("./ValidatorEnums")
 
 export type IAbility = {
+	Name: string, -- should swap for Enums?
 	Phases: { [AbilityStateMachine.Phases]: (jecs.Entity) -> () },
 	Validators: { [ValidatorEnums.Enums]: (jecs.Entity) -> boolean },
 }
