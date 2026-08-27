@@ -10,43 +10,30 @@ local ability: Types.Ability = {
 	Phases = {},
 }
 
-ability.Phases[StateMachine.Phases.Charging] = function(entity: jecs.Entity)
-	local info = WorldPoint:get(entity, Components.Shared.AbilityInfo)
-	assert(info)
-
-	info.CD = 10
-
+ability.Phases[StateMachine.Phases.Charging] = function()
 	print("Charging")
-	WorldPoint:set(entity, Components.Shared.AbilityInfo, info)
-	task.wait(1)
 end
-ability.Phases[StateMachine.Phases.Starting] = function(entity)
+ability.Phases[StateMachine.Phases.Starting] = function(entity: jecs.Entity)
 	local info = WorldPoint:get(entity, Components.Shared.AbilityInfo)
 	assert(info)
 
 	print("Starting")
 	print(`Changed CD: {info.CD}, Original CD: {AbilityInfo["Test"].CD}`)
-
-	task.wait(1)
 end
-ability.Phases[StateMachine.Phases.Active] = function()
+ability.Phases[StateMachine.Phases.Active] = function(entity: jecs.Entity)
 	print("Active")
-	task.wait(1)
 end
 ability.Phases[StateMachine.Phases.Stoping] = function()
 	print("Stoping")
-	task.wait(1)
 end
 ability.Phases[StateMachine.Phases.Recharging] = function()
 	print("Recharging")
 end
 ability.Phases[StateMachine.Phases.Idle] = function()
 	print("Idle")
-	task.wait(1)
 end
 ability.Phases[StateMachine.Phases.Interrupted] = function()
 	print("Interrupted")
-	task.wait(1)
 end
 
 return ability

@@ -45,7 +45,7 @@ end
 operations[StateMachine.Phases.Charging] = function(entity: jecs.Entity)
 	WorldPoint:add(entity, Components.Shared.Active)
 
-	local owner = WorldPoint:get(entity, Components.AbilityOwner)
+	local owner = WorldPoint:get(entity, Components.Shared.AbilityOwner)
 	if owner then WorldPoint:add(owner, Components.Shared.UsingAbility) end
 
 	executePhaseBehavior(entity)
@@ -75,7 +75,7 @@ operations[StateMachine.Phases.Idle] = function(entity: jecs.Entity)
 end
 
 operations[StateMachine.Phases.Recharging] = function(entity: jecs.Entity)
-	local owner = WorldPoint:get(entity, Components.AbilityOwner)
+	local owner = WorldPoint:get(entity, Components.Shared.AbilityOwner)
 	if owner then WorldPoint:remove(owner, Components.Shared.UsingAbility) end
 
 	WorldPoint:remove(entity, Components.Shared.Active)
@@ -88,11 +88,12 @@ operations[StateMachine.Phases.Recharging] = function(entity: jecs.Entity)
 	local timers = WorldPoint:get(entity, Components.Shared.Timers)
 	if not timers then return end
 
+	executePhaseBehavior(entity)
+
 	TimerAPI.StartTimer(timers.CD, abilityInfo.CD)
 	TimerAPI.WaitForTimer(timers.CD)
 	-- ^ should this logic be in FSM or in a separate phase behavior?
 
-	executePhaseBehavior(entity)
 	changeToNextPhase(entity, StateMachine.Phases.Recharging)
 end
 

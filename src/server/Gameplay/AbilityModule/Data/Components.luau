@@ -14,8 +14,6 @@ return {
 		janitor: janitor.Janitor,
 	}>,
 
-	AbilityOwner = WorldPoint:component() :: jecs.Component<jecs.Entity>,
-
 	ReplicateAbilityRequestData = WorldPoint:component() :: jecs.Component<Types.ReplicateAbilityRequestData>,
 	CreateAbilityRequestData = WorldPoint:component() :: jecs.Component<Types.CreateAbilityRequestData>,
 	DestroyAbilityRequestData = WorldPoint:component() :: jecs.Component<Types.DestroyAbilityRequestData>,

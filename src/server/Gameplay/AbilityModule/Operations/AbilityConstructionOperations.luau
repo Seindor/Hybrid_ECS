@@ -27,7 +27,7 @@ function operations.CreateAbility(data: Types.CreateAbilityRequestData): jecs.En
 			timeLeft = 10,
 		},
 	})
-	WorldPoint:set(entity, Components.AbilityOwner, data.owner)
+	WorldPoint:set(entity, Components.Shared.AbilityOwner, data.owner)
 
 	return entity
 end

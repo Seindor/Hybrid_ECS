@@ -10,13 +10,7 @@ local App = AppService.new()
 Replication.SetupReplication()
 Replication.SetupComponentsReplication(ReplicatedStorage.Gameplay, "components")
 
-App:Init()
+App:RegisterBootFiles(script.Parent)
+App:RegisterBootFiles(ReplicatedStorage)
 
-task.spawn(function()
-	print("setup")
-	while task.wait(1 / 10) do
-		for entity, data in WorldPoint:query(Components.State) do
-			print(`Current server ability state: {data}`)
-		end
-	end
-end)
+App:Init()

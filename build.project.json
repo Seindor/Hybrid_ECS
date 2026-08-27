@@ -23,13 +23,9 @@
         "$path": "roblox_server_packages"
       }
     },
-    "StarterPlayer": {
-      "$className": "StarterPlayer",
-      "StarterPlayerScripts": {
-        "$className": "StarterPlayerScripts",
-        "$ignoreUnknownInstances": true,
-        "$path": "out/client"
-      },
+    "ReplicatedFirst": {
+      "$className": "ReplicatedFirst",
+      "$path": "out/client",
       "$ignoreUnknownInstances": true
     }
   }

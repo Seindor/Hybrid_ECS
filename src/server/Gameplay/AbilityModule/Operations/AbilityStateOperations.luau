@@ -1,8 +1,8 @@
 local jecs = require("@RbxPackages/jecs")
 local StateMachine = require("@SharedGameplay/AbilityModule/Data/AbilityStateMachine")
+local ValidatorEnums = require("@SharedGameplay/AbilityModule/Data/ValidatorEnums")
 local Components = require("../Data/Components")
 local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
-local ValidatorEnums = require("../Data/ValidatorEnums")
 local AbilityFSM = require("../Resources/AbilityFSM")
 local AbilityValidationOperations = require("./AbilityValidationOperations")
 
@@ -27,18 +27,18 @@ local function stratThread(entity: jecs.Entity, phase: StateMachine.Phases)
 	end))
 end
 
-function operations.StartAbility(entity: jecs.Entity)
-	if not AbilityValidationOperations.ValidateAbility(entity, ValidatorEnums.Start) then return end
+function operations.StartAbility(entity: jecs.Entity, owner: jecs.Entity)
+	if not AbilityValidationOperations.ValidateAbility(entity, owner, ValidatorEnums.Start) then return end
 	stratThread(entity, StateMachine.Phases.Charging)
 end
 
-function operations.StopAbility(entity: jecs.Entity)
-	if not AbilityValidationOperations.ValidateAbility(entity, ValidatorEnums.Stop) then return end
+function operations.StopAbility(entity: jecs.Entity, owner: jecs.Entity)
+	if not AbilityValidationOperations.ValidateAbility(entity, owner, ValidatorEnums.Stop) then return end
 	stratThread(entity, StateMachine.Phases.Stoping)
 end
 
-function operations.CancelAbility(entity: jecs.Entity)
-	if not AbilityValidationOperations.ValidateAbility(entity, ValidatorEnums.Interrupt) then return end
+function operations.CancelAbility(entity: jecs.Entity, owner: jecs.Entity)
+	if not AbilityValidationOperations.ValidateAbility(entity, owner, ValidatorEnums.Interrupt) then return end
 	stratThread(entity, StateMachine.Phases.Interrupted)
 end
 

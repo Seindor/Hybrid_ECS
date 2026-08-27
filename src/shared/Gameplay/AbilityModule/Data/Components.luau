@@ -18,4 +18,6 @@ return {
 	AbilityInfo = WorldPoint:component() :: jecs.Component<AbilityType.Ability>,
 	Active = WorldPoint:component() :: jecs.Component<>,
 	OnCD = WorldPoint:component() :: jecs.Component<>,
+
+	AbilityOwner = WorldPoint:component() :: jecs.Component<jecs.Entity>,
 }

@@ -20,13 +20,13 @@ end
 function API.StartAbility(owner: jecs.Entity, abilityName: string)
 	local ability = AbilityContainerOperations.GetAbilityFromContainer(owner, abilityName)
 	assert(ability, `{abilityName} ability doesnt exist on {owner} entity!`)
-	AbilityStateOperations.StartAbility(ability)
+	AbilityStateOperations.StartAbility(ability, owner)
 end
 
 function API.InterruptAbility(owner: jecs.Entity, abilityName: string)
 	local ability = AbilityContainerOperations.GetAbilityFromContainer(owner, abilityName)
 	assert(ability, `{abilityName} ability doesnt exist on {owner} entity!`)
-	AbilityStateOperations.CancelAbility(ability)
+	AbilityStateOperations.CancelAbility(ability, owner)
 end
 
 function API._setupContainer(owner: jecs.Entity)
