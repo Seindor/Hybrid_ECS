@@ -15,6 +15,7 @@ ability.Phases[StateMachine.Phases.Charging] = function(entity: jecs.Entity)
 	assert(info)
 
 	info.CD = 10
+	info.Damage += 10
 
 	print("Charging")
 	WorldPoint:set(entity, Components.Shared.AbilityInfo, info)

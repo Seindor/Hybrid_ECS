@@ -19,6 +19,7 @@ ability.Phases[StateMachine.Phases.Starting] = function(entity: jecs.Entity)
 
 	print("Starting")
 	print(`Changed CD: {info.CD}, Original CD: {AbilityInfo["Test"].CD}`)
+	print(`Changed Damage: {info.Damage}, Original Damage: {AbilityInfo["Test"].Damage}`)
 end
 ability.Phases[StateMachine.Phases.Active] = function(entity: jecs.Entity)
 	print("Active")
