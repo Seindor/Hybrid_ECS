@@ -25,10 +25,21 @@ function operations.AddModifierToContainer(owner: jecs.Entity, modifier: Types.M
 	local modifierContainer = WorldPoint:get(owner, Components.ModifiersContainer)
 	assert(modifierContainer, `{owner} entity doesnt have a modifier container component!`)
 
-	local id = generateId()
+	local generatedId = generateId()
 
-	modifierContainer[id] = modifier
-	return id
+	modifierContainer[generatedId] = modifier
+	return generatedId
+end
+
+function operations.RemoveModifierFromContainer(owner: jecs.Entity, modifierId: string)
+	local modifierContainer = WorldPoint:get(owner, Components.ModifiersContainer)
+	if not modifierContainer then return end
+
+	local selectedModifier = modifierContainer[modifierId]
+	if not selectedModifier then return end
+
+	table.clear(selectedModifier)
+	modifierContainer[modifierId] = nil
 end
 
 function operations.QueryModifiersByTags(owner: jecs.Entity, tags: { string })

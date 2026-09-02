@@ -15,8 +15,8 @@ App:RegisterBootFiles(ReplicatedStorage)
 App:Init()
 
 local Replication = require("@ServerCore/Replication/Operations/Replication")
+local AttributeCalculationAPI = require("@SharedGameplay/AttributeModule/APIs/AttributeCalculationAPI")
 local AttributeConstructionAPI = require("@SharedGameplay/AttributeModule/APIs/AttributeConstructionAPI")
-local CalculationAPI = require("@SharedGameplay/AttributeModule/APIs/CalculationAPI")
 
 Replication.SetupReplication()
 Replication.SetupComponentsReplication(ReplicatedStorage.Gameplay, "components")
@@ -40,26 +40,29 @@ Players.PlayerAdded:Connect(function(player)
 
 	AbilityAPI._setupContainer(entity)
 
-	AttributeConstructionAPI.CreateAttribute(entity, "Test", {
-		tags = { "test" },
-		baseValue = 3,
+	AttributeConstructionAPI.CreateAttribute(entity, {
+		name = "Test",
 		value = 3,
-		calculator = "TestCalculator",
+		calculatorName = "TestCalculator",
 	})
 
-	AttributeConstructionAPI.CreateModifier(entity, "Test", {
-		tags = { "test" },
-		behavior = "TestBehavior",
-		additional = { value = 110 },
+	AttributeConstructionAPI.CreateAttribute(entity, {
+		name = "Test2",
+		value = 3,
+		calculatorName = "TestCalculator2",
 	})
 
-	AttributeConstructionAPI.CreateModifier(entity, "Test2", {
-		tags = { "test" },
-		behavior = "TestBehavior2",
-		additional = { value = 120 },
+	AttributeConstructionAPI.CreateModifier(entity, {
+		tags = { "Add" },
+		value = 10,
 	})
 
-	print(CalculationAPI.GetContainerAttributeValue(entity, "Test", { ["owner"] = entity }))
+	AttributeConstructionAPI.CreateModifier(entity, {
+		tags = { "Add" },
+		value = 20,
+	})
+
+	print(AttributeCalculationAPI.GetCalculatedContainerAttribute(entity, "Test"))
 
 	--[[
 	task.delay(2, function()

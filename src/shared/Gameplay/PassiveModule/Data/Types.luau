@@ -1,0 +1,13 @@
+local jecs = require("@RbxPackages/jecs")
+
+export type Passive = {
+	name: string,
+	additional: { [string]: any },
+}
+
+export type IPassiveObject = {
+	OnAttach: (owner: jecs.Entity, passive: Passive) -> (),
+	OnDetach: (owner: jecs.Entity, passive: Passive) -> (),
+}
+
+return {}

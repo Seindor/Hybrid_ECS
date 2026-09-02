@@ -16,7 +16,7 @@ function API.GetContainerAttribute(owner: jecs.Entity, attributeName: string)
 end
 
 function API.GetCalculatedContainerAttribute(owner: jecs.Entity, attributeName: string)
-	local attribute = API.GetCalculatedContainerAttribute(owner, attributeName)
+	local attribute = API.GetContainerAttribute(owner, attributeName)
 	API.CalculateAttribute(owner, attribute)
 	return attribute
 end
