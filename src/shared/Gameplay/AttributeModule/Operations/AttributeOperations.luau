@@ -1,23 +1,29 @@
-local sift = require("@RbxPackages/sift")
-local Components = require("../Data/Components")
-local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
 local jecs = require("@RbxPackages/jecs")
+local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
+local CalculatorOperations = require("./CalculatorOperations")
 local Types = require("../Data/Types")
-local CalculatorRegistry = require("../Resources/CalculatorRegistry")
 
 local operations = {}
 
-function operations.ResetAttribute(attribute: Types.Attribute, context: Types.ActionContext)
+function operations.ResetAttribute(attribute: Types.Attribute)
 	attribute.value = attribute.baseValue
 end
 
-function operations.CalculateAttribute(attribute: Types.Attribute, context: Types.ActionContext)
-	local clonnedAttribute = sift.Dictionary.copyDeep(attribute)
-	operations.ResetAttribute(attribute, context)
+function operations.CalculateAttribute(owner: jecs.Entity, attribute: Types.Attribute)
+	if attribute._dirty then return end
 
-	local selectedCalculator = CalculatorRegistry[attribute.calculator]
-	if not selectedCalculator then return attribute end
-	return selectedCalculator.Apply(context, clonnedAttribute)
+	local context: Types.ActionContext = {
+		owner = owner,
+		attribute = attribute,
+		additional = {},
+	}
+
+	local calculator = CalculatorOperations.SelectCalculator(attribute)
+	assert(calculator, `{attribute} attribute has an undefined calculator`)
+
+	attribute._dirty = true
+
+	calculator.Calculate(context)
 end
 
 return operations

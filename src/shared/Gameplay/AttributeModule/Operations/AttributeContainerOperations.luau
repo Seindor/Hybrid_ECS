@@ -7,6 +7,7 @@ local operations = {}
 
 function operations.GetAttributeFromContainer(owner: jecs.Entity, attributeName: string): Types.Attribute?
 	local attributeContainer = WorldPoint:get(owner, Components.AttributesContainer)
+	assert(attributeContainer, `{owner} entity doesnt have an attribute container component!`)
 	if not attributeContainer then return nil end
 
 	local selectedAttribute = attributeContainer[attributeName]

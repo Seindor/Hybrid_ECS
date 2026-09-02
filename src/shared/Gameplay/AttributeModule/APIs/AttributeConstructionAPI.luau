@@ -6,6 +6,7 @@ local Types = require("../Data/Types")
 local API = {}
 
 function API.CreateAttribute(owner: jecs.Entity, name: string, data: Types.Attribute)
+	data._dirty = false
 	local container = WorldPoint:get(owner, Components.AttributesContainer) or {}
 	container[name] = data
 	WorldPoint:set(owner, Components.AttributesContainer, container :: any)

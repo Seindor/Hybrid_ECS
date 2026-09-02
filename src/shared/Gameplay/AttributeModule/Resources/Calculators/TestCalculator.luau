@@ -1,30 +1,23 @@
-local jecs = require("@RbxPackages/jecs")
+local ModifierContainerOperations = require("@SharedGameplay/AttributeModule/Operations/ModifierContainerOperations")
+local Types = require("@SharedGameplay/AttributeModule/Data/Types")
+local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
+local AttributeCalculationAPI = require("../../APIs/AttributeCalculationAPI")
 local AttributeOperations = require("../../Operations/AttributeOperations")
+local TestCalculator2 = require("./TestCalculator2")
+local QueryAdditiveModifiers = require("../CalculationSteps/QueryAdditiveModifiers")
 local AttributeContainerOperations = require("../../Operations/AttributeContainerOperations")
-local Contexts = require("../Contexts")
-local ModifierOperations = require("../../Operations/ModifierOperations")
-local Types = require("../../Data/Types")
+local Components = require("@SharedGameplay/AttributeModule/Data/Components")
 
 local calculator = {} :: Types.ICalculator
 
-function calculator.Apply(context: Contexts.TestContext, attribute)
-	local owner = context.owner
-	local modifiers = ModifierOperations.QueryModifiersByTags(owner, attribute.tags)
+function calculator.Calculate(context: Types.ActionContext)
+	local attribute = context.attribute
 
-	for _, modifier in modifiers do
-		ModifierOperations.ApplyModifier(attribute, modifier, context :: any)
-	end
+	QueryAdditiveModifiers(context)
 
-	local testAttribute = AttributeContainerOperations.GetAttributeFromContainer(owner, "Test2")
-	if not testAttribute then return attribute end
+	local anotherAttribute = AttributeCalculationAPI.GetCalculatedContainerAttribute(context.owner, "Test2")
 
-	local changedAttribute = AttributeOperations.CalculateAttribute(testAttribute, context :: any)
-
-	attribute.value = attribute.value * changedAttribute.value
-
-	print(attribute.value)
-
-	return attribute
+	attribute.value += anotherAttribute.value
 end
 
 return calculator
