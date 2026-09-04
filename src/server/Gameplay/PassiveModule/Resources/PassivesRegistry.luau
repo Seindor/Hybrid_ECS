@@ -1,4 +1,4 @@
-local Types = require("../Data/Types")
+local Types = require("@SharedGameplay/PassiveModule/Data/Types")
 
 local registry: { [string]: Types.IPassiveObject } = {}
 

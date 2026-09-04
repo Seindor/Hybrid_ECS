@@ -17,13 +17,13 @@ App:Init()
 local Replication = require("@ServerCore/Replication/Operations/Replication")
 local AttributeCalculationAPI = require("@SharedGameplay/AttributeModule/APIs/AttributeCalculationAPI")
 local AttributeConstructionAPI = require("@SharedGameplay/AttributeModule/APIs/AttributeConstructionAPI")
-local PassiveAPI = require("@SharedGameplay/PassiveModule/APIs/PassiveAPI")
 
 Replication.SetupReplication()
 Replication.SetupComponentsReplication(ReplicatedStorage.Gameplay, "components")
 
 local AbilityAPI = require("./Gameplay/AbilityModule/APIs/AbilityAPI")
 local ProfileStoreAPI = require("./Core/ProfileStore/APIs/ProfileStoreAPI")
+local PassiveAPI = require("./Gameplay/PassiveModule/APIs/PassiveAPI")
 local StoreAPI = require("./Gameplay/StoreModule/APIs/StoreAPI")
 
 local playerStore = {}

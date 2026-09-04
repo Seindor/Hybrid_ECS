@@ -1,8 +1,9 @@
 local jecs = require("@RbxPackages/jecs")
+local Types = require("@SharedGameplay/PassiveModule/Data/Types")
 local PassiveConstructionOperations = require("../Operations/PassiveConstructionOperations")
 local PassiveOperations = require("../Operations/PassiveOperations")
 local PassiveContainerOperations = require("../Operations/PassiveContainerOperations")
-local Types = require("../Data/Types")
+
 local API = {}
 
 function API.AttachPassive(owner: jecs.Entity, passive: Types.Passive)

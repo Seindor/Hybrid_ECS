@@ -1,7 +1,7 @@
 local jecs = require("@RbxPackages/jecs")
+local Types = require("@SharedGameplay/PassiveModule/Data/Types")
 local Components = require("../Data/Components")
 local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
-local Types = require("../Data/Types")
 
 local operations = {}
 
