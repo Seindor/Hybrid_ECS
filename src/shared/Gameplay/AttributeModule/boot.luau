@@ -1,2 +1,2 @@
 local App = require("../../Core/App/Services/App")
-return function(app: App.IApp) end
+return function(_app: App.IApp) end

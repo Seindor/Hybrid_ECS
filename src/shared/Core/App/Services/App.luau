@@ -1,7 +1,7 @@
 local RunService = game:GetService("RunService")
 
 local promise = require("@RbxPackages/promise")
-local sift = require("@RbxPackages/sift")
+local _sift = require("@RbxPackages/sift")
 
 local constructor = {}
 
@@ -64,7 +64,7 @@ local function recalculateUpdateOrder(app: IApp)
 		return a0.priority > a1.priority
 	end)
 
-	for a0, priorityGroup in temp do
+	for _, priorityGroup in temp do
 		table.insert(app.UpdateOrder, priorityGroup.systems)
 	end
 end

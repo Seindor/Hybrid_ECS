@@ -15,11 +15,11 @@ ability.Validators[ValidatorEnums.Start] = function(entity: jecs.Entity, owner: 
 	return true
 end
 
-ability.Validators[ValidatorEnums.Stop] = function(entity: jecs.Entity)
+ability.Validators[ValidatorEnums.Stop] = function(_entity: jecs.Entity)
 	return true
 end
 
-ability.Validators[ValidatorEnums.Interrupt] = function(entity: jecs.Entity)
+ability.Validators[ValidatorEnums.Interrupt] = function(_entity: jecs.Entity)
 	return true
 end
 

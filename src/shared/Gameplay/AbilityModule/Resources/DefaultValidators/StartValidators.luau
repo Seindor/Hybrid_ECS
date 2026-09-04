@@ -14,7 +14,7 @@ function validators.CheckActive(ability: jecs.Entity): boolean
 	return not active
 end
 
-function validators.CheckOwnerActiveAbility(ability: jecs.Entity, owner: jecs.Entity)
+function validators.CheckOwnerActiveAbility(_ability: jecs.Entity, owner: jecs.Entity)
 	local usingAbility = WorldPoint:has(owner, Components.UsingAbility)
 	return not usingAbility
 end

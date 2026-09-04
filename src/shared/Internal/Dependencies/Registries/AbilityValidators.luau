@@ -1,5 +1,5 @@
-local resource = require("@Shared/Gameplay/AbilityModule/Resources/AbilityValidatorsRegistry.luau")
+local _resource = require("@Shared/Gameplay/AbilityModule/Resources/AbilityValidatorsRegistry.luau")
 
 return {
-	Resource = ({} :: any) :: typeof(resource)
+	Resource = ({} :: any) :: typeof(_resource)
 }

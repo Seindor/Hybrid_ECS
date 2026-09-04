@@ -8,7 +8,7 @@ local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
 
 local operations = {}
 
-function operations.ExecuteStateBehavior(entity: jecs.Entity, owner: jecs.Entity, state: StateMachine.Phases)
+function operations.ExecuteStateBehavior(entity: jecs.Entity, _owner: jecs.Entity, state: StateMachine.Phases)
 	local abilityInfo = WorldPoint:get(entity, Components.Shared.AbilityInfo)
 	if not abilityInfo then return end
 

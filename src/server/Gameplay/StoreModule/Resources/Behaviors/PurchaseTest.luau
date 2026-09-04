@@ -2,11 +2,11 @@ local Types = require("../../Data/Types")
 
 local behavior = {} :: Types.IBehavior
 
-function behavior.Grant(request)
+function behavior.Grant(_request)
 	print("granted product")
 end
 
-function behavior.Validate(request)
+function behavior.Validate(_request)
 	return true
 end
 

@@ -40,7 +40,7 @@ end
 function operations.SetupReplication()
 	Replicator:init()
 
-	Signals.RequestDataReplication.On(function(player, data)
+	Signals.RequestDataReplication.On(function(player, _data)
 		Replicator:mark_player_ready(player)
 		Signals.ReplicateGamestate.Fire(player, Replicator:get_full(player))
 	end)

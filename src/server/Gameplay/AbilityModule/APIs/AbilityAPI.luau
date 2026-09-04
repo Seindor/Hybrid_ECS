@@ -1,5 +1,5 @@
 local jecs = require("@RbxPackages/jecs")
-local AbilityReplicationOperations = require("../Operations/AbilityReplicationOperations")
+local _AbilityReplicationOperations = require("../Operations/AbilityReplicationOperations")
 local Components = require("../Data/Components")
 local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
 local AbilityStateOperations = require("../Operations/AbilityStateOperations")

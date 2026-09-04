@@ -6,7 +6,10 @@
 
 sourcemap.json
 
+/skills
+/AGENTS.md
 /roblox.yml
+/globalTypes.d.luau
 
 /*.pesde
 /*luau_packages

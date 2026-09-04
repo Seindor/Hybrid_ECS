@@ -4,7 +4,7 @@ local Components = require("../Data/Components")
 local system = {}
 
 function system.ReplicateAbility()
-	for entity, data in WorldPoint:query(Components.ReplicateAbilityRequestData) do
+	for _, data in WorldPoint:query(Components.ReplicateAbilityRequestData) do
 		AbilityReplicationOperations.AddAbilityReplication(data)
 	end
 end

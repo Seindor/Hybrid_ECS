@@ -1,5 +1,5 @@
 local jecs = require("@RbxPackages/jecs")
-local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
+local _WorldPoint = require("@SharedInternal/ECS/WorldPoint")
 local CalculatorOperations = require("./CalculatorOperations")
 local Types = require("../Data/Types")
 

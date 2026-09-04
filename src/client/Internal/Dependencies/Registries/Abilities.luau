@@ -1,5 +1,5 @@
-local resource = require("@Client/Gameplay/AbilityModule/Resources/AbilitiesRegistry")
+local _resource = require("@Client/Gameplay/AbilityModule/Resources/AbilitiesRegistry")
 
 return {
-	Resource = ({} :: any) :: typeof(resource),
+	Resource = ({} :: any) :: typeof(_resource),
 }

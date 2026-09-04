@@ -6,7 +6,7 @@ export type IProfile = {
 	Test: number,
 }
 
-local profileSchema = {}
+local _profileSchema = {}
 
 -- ^ change to schema later
 

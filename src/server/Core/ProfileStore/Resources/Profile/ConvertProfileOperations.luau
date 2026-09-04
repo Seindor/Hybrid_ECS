@@ -1,10 +1,10 @@
 local jecs = require("@RbxPackages/jecs")
-local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
+local _WorldPoint = require("@SharedInternal/ECS/WorldPoint")
 local Profile = require("./Profile")
 
 local operations = {}
 
-function operations.ConvertToStore(entity: jecs.Entity)
+function operations.ConvertToStore(_entity: jecs.Entity)
 	local profile: Profile.IProfile = {
 		Test = 5,
 	}
@@ -12,6 +12,6 @@ function operations.ConvertToStore(entity: jecs.Entity)
 	return profile
 end
 
-function operations.ConvertFromStore(entity: jecs.Entity, data: Profile.IProfile) end
+function operations.ConvertFromStore(_entity: jecs.Entity, _data: Profile.IProfile) end
 
 return operations

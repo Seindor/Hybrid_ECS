@@ -1,5 +1,5 @@
 local jecs = require("@RbxPackages/jecs")
-local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
+local _WorldPoint = require("@SharedInternal/ECS/WorldPoint")
 local BehaviorRegistry = require("../Resources/BehaviorRegistry")
 local Types = require("../Data/Types")
 
