@@ -2,12 +2,10 @@ local Types = require("../../Data/Types")
 
 local passive = {} :: Types.IPassiveObject
 
-function passive.OnAttach(owner, passive)
-	print("Attached Passive", passive)
+function passive.OnAttach(owner, passiveData)
+	print("Attached Passive", passiveData)
 end
 
-function passive.OnTick(owner, passive)
-	print("tick")
-end
+function passive.OnTick(owner, passiveData) end
 
 return passive

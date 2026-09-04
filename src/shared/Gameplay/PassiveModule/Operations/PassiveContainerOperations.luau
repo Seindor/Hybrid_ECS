@@ -21,6 +21,7 @@ function operations.AddPassive(owner: jecs.Entity, passive: Types.Passive)
 	local passiveContainer = WorldPoint:get(owner, Components.PassiveContainer)
 	if not passiveContainer then return end
 	passiveContainer[passive.name] = passive
+	WorldPoint:set(owner, Components.PassiveContainer, passiveContainer)
 end
 
 function operations.RemovePassive(owner: jecs.Entity, passiveName: string)
@@ -31,6 +32,7 @@ function operations.RemovePassive(owner: jecs.Entity, passiveName: string)
 	if selectedPassive then table.clear(selectedPassive) end
 
 	passiveContainer[passiveName] = nil
+	WorldPoint:set(owner, Components.PassiveContainer, passiveContainer)
 end
 
 return operations

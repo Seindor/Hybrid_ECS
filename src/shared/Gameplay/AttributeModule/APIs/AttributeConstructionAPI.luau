@@ -25,9 +25,11 @@ function API.CreateModifier(owner: jecs.Entity, context: { value: number, tags: 
 		tags = context.tags,
 	}
 
+	local container = WorldPoint:get(owner, Components.ModifiersContainer) or {}
+	WorldPoint:set(owner, Components.ModifiersContainer, container :: any)
+
 	local id = ModifierContainerOperations.AddModifierToContainer(owner, data)
 
-	local container = WorldPoint:get(owner, Components.ModifiersContainer)
 	WorldPoint:set(owner, Components.ModifiersContainer, container :: any)
 
 	return id

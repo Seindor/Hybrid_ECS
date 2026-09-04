@@ -47,10 +47,12 @@ export type Item = {
 }
 
 export type PurchaseOperation = {
-	item: Item, --rename (data?)
 	cost: Cost,
-	handler: string,
+	name: string,
+	arguments: any,
 }
+-- ^ arent stored and instead are used as requests (data)
+-- various modules will provide operations which make requests to do certain things
 
 --[[
 
