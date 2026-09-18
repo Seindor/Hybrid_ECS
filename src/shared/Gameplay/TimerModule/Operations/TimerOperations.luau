@@ -1,6 +1,12 @@
 local Types = require("../Data/Types")
 local operations = {}
 
+function operations.CreateTimer(duration: number): Types.Timer
+	local timer = {} :: Types.Timer
+	operations.StartTimer(timer, duration)
+	return timer
+end
+
 function operations.StartTimer(timer: Types.Timer, duration: number)
 	timer.duration = duration
 	timer.timeLeft = duration

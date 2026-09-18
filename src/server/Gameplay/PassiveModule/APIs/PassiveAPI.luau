@@ -1,26 +1,28 @@
 local jecs = require("@RbxPackages/jecs")
-local Types = require("@SharedGameplay/PassiveModule/Data/Types")
 local PassiveConstructionOperations = require("../Operations/PassiveConstructionOperations")
 local PassiveOperations = require("../Operations/PassiveOperations")
 local PassiveContainerOperations = require("../Operations/PassiveContainerOperations")
 
 local API = {}
 
-function API.AttachPassive(owner: jecs.Entity, passive: Types.Passive)
+function API.AttachPassive(owner: jecs.Entity, passiveName: string, data: { [string]: any }?)
 	PassiveConstructionOperations.CreateContainer(owner)
-	PassiveContainerOperations.AddPassive(owner, passive)
 
-	if PassiveContainerOperations.HasPassive(owner, passive.name) then
-		PassiveOperations.ExecuteBehavior(owner, passive, "OnAttach")
-	end
+	local passive = PassiveConstructionOperations.CreatePassive(owner, passiveName, data)
+	if not passive then return end
+
+	PassiveContainerOperations.AddPassive(owner, passive)
+	PassiveOperations.ExecuteBehavior(owner, passive, "OnAttach")
 end
 
 function API.DetachPassive(owner: jecs.Entity, passiveName: string)
 	PassiveConstructionOperations.CreateContainer(owner)
-	local selectedPassive = PassiveContainerOperations.GetPassive(owner, passiveName)
-	if selectedPassive then PassiveOperations.ExecuteBehavior(owner, selectedPassive, "OnDetach") end
+
+	local passive = PassiveContainerOperations.GetPassive(owner, passiveName)
+	if passive then PassiveOperations.ExecuteBehavior(owner, passive, "OnDetach") end
 
 	PassiveContainerOperations.RemovePassive(owner, passiveName)
+	if passive then PassiveConstructionOperations.DestroyPassive(passive) end
 end
 
 return API

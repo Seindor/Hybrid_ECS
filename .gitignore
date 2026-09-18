@@ -5,6 +5,9 @@
 /*.rbxl.lock
 
 sourcemap.json
+opencode.jsonc
+opencode.json
+.env
 
 /skills
 /AGENTS.md

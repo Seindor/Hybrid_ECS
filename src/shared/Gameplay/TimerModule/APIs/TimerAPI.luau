@@ -3,6 +3,10 @@ local TimerOperations = require("../Operations/TimerOperations")
 
 local API = {}
 
+function API.CreateTimer(duration: number): Types.Timer
+	return TimerOperations.CreateTimer(duration)
+end
+
 function API.StartTimer(timer: Types.Timer, duration: number)
 	TimerOperations.StartTimer(timer, duration)
 end

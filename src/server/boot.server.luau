@@ -72,10 +72,7 @@ Players.PlayerAdded:Connect(function(player)
 		reciever = entity,
 	})
 
-	PassiveAPI.AttachPassive(entity, {
-		name = "TestPassive",
-		additional = {},
-	})
+	PassiveAPI.AttachPassive(entity, "TestPassive")
 
 	--[[
 	task.delay(2, function()

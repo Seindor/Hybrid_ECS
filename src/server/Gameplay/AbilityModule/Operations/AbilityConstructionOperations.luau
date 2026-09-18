@@ -4,6 +4,7 @@ local sift = require("@RbxPackages/sift")
 local Components = require("../Data/Components")
 local AbilityInfo = require("@SharedContent/Info/AbilityInfo")
 local AbilityStateMachine = require("@SharedGameplay/AbilityModule/Data/AbilityStateMachine")
+local TimerAPI = require("@SharedGameplay/TimerModule/APIs/TimerAPI")
 local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
 local Types = require("../Data/Types")
 
@@ -16,16 +17,14 @@ function operations.CreateAbility(data: Types.CreateAbilityRequestData): jecs.En
 	local entity = WorldPoint:entity()
 
 	WorldPoint:set(entity, Components.Shared.AbilityInfo, sift.Dictionary.copyDeep(abilityInfo))
+	-- ^ could probs move this outside of the module so that external sources (which call the API)
+	-- will get ability definition from Info and then call the API with specific stats
 	WorldPoint:set(entity, Components._abilityInternal, {
 		janitor = janitor.new(),
 	})
 	WorldPoint:set(entity, Components.Shared.State, AbilityStateMachine.Phases.Idle)
 	WorldPoint:set(entity, Components.Shared.Timers, {
-		CD = {
-			done = false,
-			duration = 10,
-			timeLeft = 10,
-		},
+		CD = TimerAPI.CreateTimer(abilityInfo.CD),
 	})
 	WorldPoint:set(entity, Components.Shared.AbilityOwner, data.owner)
 
