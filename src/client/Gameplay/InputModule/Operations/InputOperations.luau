@@ -1,21 +1,29 @@
+local jecs = require("@RbxPackages/jecs")
 local Types = require("../Data/Types")
-local InputBehaviors = require("@ClientInternal/Dependencies/Registries/InputBehaviors")
+local Components = require("../Data/Components")
+local WorldPoint = require("@SharedInternal/ECS/WorldPoint")
 local ContextActionAdapter = require("../Resources/ContextActionAdapter")
 
 local operations = {}
 
-function operations.BindInput(data: Types.BindInputRequestData)
+local function GetInputKey(inputObject: InputObject): string
+	if inputObject.KeyCode == Enum.KeyCode.None then return inputObject.UserInputType.Name end
+	return inputObject.KeyCode.Name
+end
+
+function operations.LogInput(owner: jecs.Entity, inputObject: InputObject, inputState: Enum.UserInputState)
+	local inputs = WorldPoint:get(owner, Components.Shared.Inputs)
+	if not inputs then return end
+	inputs[GetInputKey(inputObject)] = { state = inputState }
+end
+
+function operations.BindInput(owner: jecs.Entity, data: Types.BindInputRequestData)
 	if ContextActionAdapter.IsBound(data.actionName) then return end
 
-	local behavior = InputBehaviors.Resource[data.actionName]
-	if not behavior then return end
-
-	ContextActionAdapter.BindAction(
-		data.actionName,
-		behavior.Handle,
-		data.createTouchButton or false,
-		unpack(data.inputTypes)
-	)
+	ContextActionAdapter.BindAction(data.actionName, function(_actionName, inputState, inputObject)
+		operations.LogInput(owner, inputObject, inputState)
+		return Enum.ContextActionResult.Pass
+	end, data.createTouchButton or false, unpack(data.inputTypes))
 end
 
 function operations.UnbindInput(data: Types.UnbindInputRequestData)

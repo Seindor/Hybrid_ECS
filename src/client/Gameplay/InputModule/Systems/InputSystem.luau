@@ -6,7 +6,7 @@ local system = {}
 
 function system.ProcessBindInputs()
 	for _, data in WorldPoint:query(Components.BindInputRequestData) do
-		InputOperations.BindInput(data)
+		InputOperations.BindInput(data.owner, data)
 	end
 end
 
