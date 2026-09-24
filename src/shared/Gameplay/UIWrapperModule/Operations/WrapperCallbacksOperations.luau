@@ -11,19 +11,19 @@
 local Signal = require("@RbxPackages/signal")
 
 local Types = require("../Data/Types")
-local WrapperState = require("../Data/WrapperState")
+local Components = require("../Data/Components")
 
-type State = WrapperState.WrapperState
+type State = Components.WrapperState
 
 local operations = {}
 
 local EVENT_KEY = "Event:"
 
-local function getSignal(self: State, event: Types.EventName): Signal.Signal<...any>
-	local signal = self._signals[event]
+local function getSignal(wrapper: State, event: Types.EventName): Signal.Signal<...any>
+	local signal = wrapper._signals[event]
 	if not signal then
 		local created: Signal.Signal<...any> = Signal.new()
-		self._signals[event] = created
+		wrapper._signals[event] = created
 		return created
 	end
 	return signal
@@ -35,20 +35,20 @@ local function getInstanceSignal(instance: GuiObject, event: Types.EventName): R
 end
 
 -- Подключает реальный RBXScriptSignal к внутреннему Signal, если ещё не подключён
-function operations.Connect(self: State, event: Types.EventName)
-	if event == "Destroying" or self._connected[event] then return end
+function operations.Connect(wrapper: State, event: Types.EventName)
+	if event == "Destroying" or wrapper._connected[event] then return end
 
-	if not self._options.events[event] then
-		error(`Событие "{event}" недоступно для {self._options.name} ({self.instance:GetFullName()})`, 3)
+	if not wrapper._options.events[event] then
+		error(`Событие "{event}" недоступно для {wrapper._options.name} ({wrapper.instance:GetFullName()})`, 3)
 	end
 
-	self._connected[event] = true
-	local signal = getSignal(self, event)
-	local instance = self.instance
+	wrapper._connected[event] = true
+	local signal = getSignal(wrapper, event)
+	local instance = wrapper.instance
 
 	if event == "Shown" or event == "Hidden" then
 		local wantVisible = event == "Shown"
-		self._janitor:Add(
+		wrapper._janitor:Add(
 			instance:GetPropertyChangedSignal("Visible"):Connect(function()
 				if instance.Visible == wantVisible then signal:Fire() end
 			end),
@@ -56,7 +56,7 @@ function operations.Connect(self: State, event: Types.EventName)
 			EVENT_KEY .. event
 		)
 	else
-		self._janitor:Add(
+		wrapper._janitor:Add(
 			getInstanceSignal(instance, event):Connect(function(...: any)
 				signal:Fire(...)
 			end),
@@ -66,32 +66,32 @@ function operations.Connect(self: State, event: Types.EventName)
 	end
 end
 
-function operations.Disconnect(self: State, event: Types.EventName)
-	if event == "Destroying" or not self._connected[event] then return end
-	self._connected[event] = nil
-	self._janitor:Remove(EVENT_KEY .. event)
+function operations.Disconnect(wrapper: State, event: Types.EventName)
+	if event == "Destroying" or not wrapper._connected[event] then return end
+	wrapper._connected[event] = nil
+	wrapper._janitor:Remove(EVENT_KEY .. event)
 end
 
-function operations.AddCallback(self: State, event: Types.EventName, id: string, cb: Types.Callback): string
-	if self._destroyed then return id end
+function operations.AddCallback(wrapper: State, event: Types.EventName, id: string, cb: Types.Callback): string
+	if wrapper._destroyed then return id end
 
-	operations.Connect(self, event) -- кинет ошибку, если событие недоступно
+	operations.Connect(wrapper, event) -- кинет ошибку, если событие недоступно
 
-	local map = self._callbacks[event]
+	local map = wrapper._callbacks[event]
 	if not map then
 		map = {}
-		self._callbacks[event] = map
+		wrapper._callbacks[event] = map
 	end
 
 	local previous = map[id]
 	if previous then previous:Disconnect() end
-	map[id] = getSignal(self, event):Connect(cb)
+	map[id] = getSignal(wrapper, event):Connect(cb)
 
 	return id
 end
 
-function operations.RemoveCallback(self: State, event: Types.EventName, id: string)
-	local map = self._callbacks[event]
+function operations.RemoveCallback(wrapper: State, event: Types.EventName, id: string)
+	local map = wrapper._callbacks[event]
 	if not map then return end
 
 	local connection = map[id]
@@ -99,25 +99,25 @@ function operations.RemoveCallback(self: State, event: Types.EventName, id: stri
 	map[id] = nil
 
 	if next(map) == nil then
-		self._callbacks[event] = nil
-		operations.Disconnect(self, event)
+		wrapper._callbacks[event] = nil
+		operations.Disconnect(wrapper, event)
 	end
 end
 
-function operations.RemoveAllCallbacks(self: State)
-	for event, map in self._callbacks do
+function operations.RemoveAllCallbacks(wrapper: State)
+	for event, map in wrapper._callbacks do
 		for _, connection in map do
 			connection:Disconnect()
 		end
-		operations.Disconnect(self, event :: Types.EventName)
+		operations.Disconnect(wrapper, event :: Types.EventName)
 	end
-	table.clear(self._callbacks)
+	table.clear(wrapper._callbacks)
 end
 
 -- Fire("Destroying") дергается вручную (не через реальный RBXScriptSignal),
--- поэтому не требует self._connected[event]
-function operations.Fire(self: State, event: Types.EventName, ...: any)
-	local signal = self._signals[event]
+-- поэтому не требует wrapper._connected[event]
+function operations.Fire(wrapper: State, event: Types.EventName, ...: any)
+	local signal = wrapper._signals[event]
 	if not signal then return end
 	signal:Fire(...)
 end

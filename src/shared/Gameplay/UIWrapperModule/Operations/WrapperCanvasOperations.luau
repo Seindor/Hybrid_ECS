@@ -4,12 +4,12 @@
 	Подписки живут в janitor обёртки и умирают вместе с ней.
 ]]
 
-local WrapperState = require("../Data/WrapperState")
+local Components = require("../Data/Components")
 
 local operations = {}
 
 function operations.BindCanvasToLayout(
-	wrapper: WrapperState.WrapperState,
+	wrapper: Components.WrapperState,
 	scrollingFrame: ScrollingFrame,
 	layout: UIListLayout,
 	axis: ("X" | "Y")?

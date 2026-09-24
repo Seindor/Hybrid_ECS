@@ -1,16 +1,19 @@
 --!strict
-local Registry = require("../Data/Registry")
+--[[
+	Подгоняет CanvasSize ScrollingFrame под UIListLayout внутри него.
+]]
+
 local WrapperCanvasOperations = require("../Operations/WrapperCanvasOperations")
-local WrapperLifecycleSystem = require("./WrapperLifecycleSystem")
+local FrameCreationSystem = require("./FrameCreationSystem")
 
 local system = {}
 
-function system.FixCanvas(registry: Registry.Registry, scrollingFrame: ScrollingFrame, axis: ("X" | "Y")?)
+function system.FixCanvas(scrollingFrame: ScrollingFrame, axis: ("X" | "Y")?)
 	local layout = scrollingFrame:FindFirstChildWhichIsA("UIListLayout")
 	if not layout then return end
 
-	local wrapper = WrapperLifecycleSystem.Create(registry, scrollingFrame)
-	WrapperCanvasOperations.BindCanvasToLayout(wrapper, scrollingFrame, layout, axis)
+	local wrapper = FrameCreationSystem.Create(scrollingFrame)
+	WrapperCanvasOperations.BindCanvasToLayout(wrapper._state, scrollingFrame, layout, axis)
 end
 
 return system

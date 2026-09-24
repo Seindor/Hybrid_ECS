@@ -1,22 +1,14 @@
 --!strict
-local Animator = require("../../Components/Animator")
-local Easing = require("../../Components/Easing")
-local Helpers = require("../../Components/Helpers")
-local IUIWrapper = require("../../Data/IUIWrapper")
-local UIWrapperTypes = require("../../Data/Types")
+local AnimationOperations = require("../../Operations/AnimationOperations")
+local Components = require("../../Data/Components")
+local EasingOperations = require("../../Operations/EasingOperations")
+local InterpolationOperations = require("../../Operations/InterpolationOperations")
+local Types = require("../../Data/Types")
+local UIScaleOperations = require("../../Operations/UIScaleOperations")
 
 local QUART = Enum.EasingStyle.Quart
 local EASE_IN = Enum.EasingDirection.In
 local EASE_OUT = Enum.EasingDirection.Out
-
-local CurrencyPopupEffect = {}
-CurrencyPopupEffect.__index = CurrencyPopupEffect
-
-export type CurrencyPopupEffect = typeof(setmetatable({} :: { wrapper: IUIWrapper.IEffectHost }, CurrencyPopupEffect))
-
-function CurrencyPopupEffect.new(wrapper: IUIWrapper.IEffectHost): CurrencyPopupEffect
-	return setmetatable({ wrapper = wrapper }, CurrencyPopupEffect)
-end
 
 -- Позиция якоря target в масштабе родителя moving
 local function getTargetPosition(moving: GuiObject, target: GuiObject, offset: UDim2?): UDim2?
@@ -39,10 +31,10 @@ local function getTargetPosition(moving: GuiObject, target: GuiObject, offset: U
 	return base
 end
 
-function CurrencyPopupEffect.Emit(self: CurrencyPopupEffect, params: UIWrapperTypes.CurrencyPopupParams)
-	local moving = self.wrapper.instance
+local function emit(wrapper: Components.WrapperState, params: Types.CurrencyPopupParams)
+	local moving = wrapper.instance
 
-	local uiScale = Helpers.FindUIScale(moving, "CurrencyPopupEffect")
+	local uiScale = UIScaleOperations.FindUIScale(moving, "CurrencyPopupEffect")
 	if not uiScale then return end
 
 	local endPos = getTargetPosition(moving, params.target, params.offset)
@@ -60,12 +52,12 @@ function CurrencyPopupEffect.Emit(self: CurrencyPopupEffect, params: UIWrapperTy
 		local scale = 1
 
 		if spawnScaleDuration > 0 and elapsed < spawnScaleDuration then
-			scale = Easing.Ease(elapsed / spawnScaleDuration, QUART, EASE_OUT)
+			scale = EasingOperations.Ease(elapsed / spawnScaleDuration, QUART, EASE_OUT)
 		end
 
 		if fadeScaleStart < 1 and progress >= fadeScaleStart then
 			local fadeProgress = (progress - fadeScaleStart) / (1 - fadeScaleStart)
-			scale = math.min(scale, Easing.Ease(1 - fadeProgress, QUART, EASE_IN))
+			scale = math.min(scale, EasingOperations.Ease(1 - fadeProgress, QUART, EASE_IN))
 		end
 
 		return scale
@@ -73,9 +65,9 @@ function CurrencyPopupEffect.Emit(self: CurrencyPopupEffect, params: UIWrapperTy
 
 	uiScale.Scale = 0
 
-	Animator.Run(self.wrapper, "CurrencyPopupEffect", bezierDuration, function(progress, elapsed)
-		local t = Easing.Ease(progress, QUART, EASE_IN)
-		moving.Position = Easing.QuadraticBezierUDim2(startPos, controlPos, endPos, t)
+	AnimationOperations.Run(wrapper, "CurrencyPopupEffect", bezierDuration, function(progress, elapsed)
+		local t = EasingOperations.Ease(progress, QUART, EASE_IN)
+		moving.Position = InterpolationOperations.QuadraticBezierUDim2(startPos, controlPos, endPos, t)
 		uiScale.Scale = scaleAt(elapsed, progress)
 	end, function()
 		uiScale.Scale = 0
@@ -83,4 +75,8 @@ function CurrencyPopupEffect.Emit(self: CurrencyPopupEffect, params: UIWrapperTy
 	end)
 end
 
-return CurrencyPopupEffect
+local effect: Components.Effect = {
+	Emit = emit,
+}
+
+return effect

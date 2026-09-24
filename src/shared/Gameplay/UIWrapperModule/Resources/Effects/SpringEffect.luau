@@ -1,25 +1,15 @@
 --!strict
-local Animator = require("../../Components/Animator")
-
-local Helpers = require("../../Components/Helpers")
-local IUIWrapper = require("../../Data/IUIWrapper")
-local UIWrapperTypes = require("../../Data/Types")
-
-local SpringEffect = {}
-SpringEffect.__index = SpringEffect
-
-export type SpringEffect = typeof(setmetatable({} :: { wrapper: IUIWrapper.IEffectHost }, SpringEffect))
-
-function SpringEffect.new(wrapper: IUIWrapper.IEffectHost): SpringEffect
-	return setmetatable({ wrapper = wrapper }, SpringEffect)
-end
+local AnimationOperations = require("../../Operations/AnimationOperations")
+local Components = require("../../Data/Components")
+local Types = require("../../Data/Types")
+local UIScaleOperations = require("../../Operations/UIScaleOperations")
 
 --[[
 	Затухающая пружина от startScale к targetScale.
 	amplitude: 1 = обычная раскачка, >1 - сильнее.
 ]]
-function SpringEffect.Emit(self: SpringEffect, params: UIWrapperTypes.SpringEffectParams?)
-	local uiScale = Helpers.FindUIScale(self.wrapper.instance, "SpringEffect")
+local function emit(wrapper: Components.WrapperState, params: Types.SpringEffectParams?)
+	local uiScale = UIScaleOperations.FindUIScale(wrapper.instance, "SpringEffect")
 	if not uiScale then return end
 
 	local duration = if params and params.duration then params.duration else 0.4
@@ -37,11 +27,15 @@ function SpringEffect.Emit(self: SpringEffect, params: UIWrapperTypes.SpringEffe
 
 	uiScale.Scale = valueAt(0)
 
-	Animator.Run(self.wrapper, "SpringEffect", duration, function(t)
+	AnimationOperations.Run(wrapper, "SpringEffect", duration, function(t)
 		uiScale.Scale = valueAt(t)
 	end, function()
 		uiScale.Scale = target
 	end)
 end
 
-return SpringEffect
+local effect: Components.Effect = {
+	Emit = emit,
+}
+
+return effect

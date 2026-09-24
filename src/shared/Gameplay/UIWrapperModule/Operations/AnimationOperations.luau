@@ -10,12 +10,12 @@
 
 local RunService = game:GetService("RunService")
 
-local Types = require("../Data/Types")
+local Components = require("../Data/Components")
 
 local operations = {}
 
 function operations.Run(
-	host: Types.IEffectHost,
+	host: Components.WrapperState,
 	key: string,
 	duration: number,
 	onStep: (alpha: number, elapsed: number) -> (),

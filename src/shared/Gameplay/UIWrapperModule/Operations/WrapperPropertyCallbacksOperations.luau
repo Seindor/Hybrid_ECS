@@ -6,24 +6,24 @@
 	value: any - осознанно: тип зависит от имени свойства, которое известно только в рантайме.
 ]]
 
-local WrapperState = require("../Data/WrapperState")
+local Components = require("../Data/Components")
 
-type State = WrapperState.WrapperState
+type State = Components.WrapperState
 
 local operations = {}
 
 local PROPERTY_KEY = "Property:"
 
 function operations.AddPropertyChangedCallback(
-	self: State,
+	wrapper: State,
 	property: string,
 	id: string,
 	cb: (value: any) -> ()
 ): string
-	if self._destroyed then return id end
+	if wrapper._destroyed then return id end
 
-	local instance = self.instance
-	self._janitor:Add(
+	local instance = wrapper.instance
+	wrapper._janitor:Add(
 		instance:GetPropertyChangedSignal(property):Connect(function()
 			cb((instance :: any)[property])
 		end),
@@ -34,9 +34,9 @@ function operations.AddPropertyChangedCallback(
 	return id
 end
 
-function operations.RemovePropertyChangedCallback(self: State, property: string, id: string)
-	if self._destroyed then return end
-	self._janitor:Remove(`{PROPERTY_KEY}{property}:{id}`)
+function operations.RemovePropertyChangedCallback(wrapper: State, property: string, id: string)
+	if wrapper._destroyed then return end
+	wrapper._janitor:Remove(`{PROPERTY_KEY}{property}:{id}`)
 end
 
 return operations

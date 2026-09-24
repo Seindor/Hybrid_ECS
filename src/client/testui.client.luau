@@ -1,8 +1,6 @@
 local Players = game:GetService("Players")
 
-local UIWrapperAPI = require("@SharedGameplay/UIWrapperModule/API/UIWrapperAPI")
-
-local uiWrapperAPI = UIWrapperAPI.new()
+local UIWrapperAPI = require("@SharedGameplay/UIWrapperModule/APIs/UIWrapperAPI")
 
 local player = Players.LocalPlayer
 local playerGui = player.PlayerGui
@@ -15,7 +13,7 @@ export type IScreenGui = {
 
 local screenGui = playerGui:WaitForChild("ScreenGui") :: IScreenGui
 
-local button = uiWrapperAPI:CreateButton(screenGui.TextButton)
+local button = UIWrapperAPI.CreateButton(screenGui.TextButton)
 
 button:AddCallback("Activated", "Test", function()
 	button._janitor:Add(
